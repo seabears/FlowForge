@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "title": "BLDC 전류 제한 로직 (설계 예시)",
+  "nodes": [
+    {"id":"start","type":"start","title":"ADC 인터럽트","description":"주기적으로 DC 링크 전류 샘플 수신","x":250,"y":60},
+    {"id":"filter","type":"process","title":"전류 필터링","description":"센싱 노이즈와 상전환 구간을 고려해 필터링","x":238,"y":190},
+    {"id":"limit","type":"decision","title":"제한 전류 초과?","description":"측정 전류 > 제한 전류","x":238,"y":340},
+    {"id":"reduce","type":"process","title":"Duty 감소","description":"제한값을 지키도록 PWM 출력 감소","x":30,"y":510},
+    {"id":"hold","type":"process","title":"Duty 유지","description":"전류 제한이 없다면 상위 제어기 출력 적용","x":460,"y":510},
+    {"id":"end","type":"end","title":"ISR 종료","description":"","x":255,"y":690}
+  ],
+  "edges": [
+    {"id":"a","from":"start","to":"filter","label":""},
+    {"id":"b","from":"filter","to":"limit","label":""},
+    {"id":"c","from":"limit","to":"reduce","label":"예"},
+    {"id":"d","from":"limit","to":"hold","label":"아니오"},
+    {"id":"e","from":"reduce","to":"end","label":""},
+    {"id":"f","from":"hold","to":"end","label":""}
+  ]
+}

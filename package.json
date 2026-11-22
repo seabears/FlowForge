@@ -1,0 +1,257 @@
+{
+  "name": "flowforge-rust",
+  "displayName": "FlowForge — Visual Logic IDE",
+  "description": "Grid-locked visual logic design, versioned .flow.json, diagram diff and simulation.",
+  "version": "0.8.2",
+  "publisher": "local-dev",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onCommand:flowforge.new",
+    "onCommand:flowforge.open",
+    "onCommand:flowforge.validate",
+    "onView:flowforge.diagrams",
+    "onCommand:flowforge.linkSource"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "flowforge.new",
+        "title": "FlowForge: New Diagram"
+      },
+      {
+        "command": "flowforge.open",
+        "title": "FlowForge: Open Diagram"
+      },
+      {
+        "command": "flowforge.validate",
+        "title": "FlowForge: Validate Diagram (Rust)"
+      },
+      {
+        "command": "flowforge.linkSource",
+        "title": "FlowForge: Link Selected Code to Node"
+      },
+      {
+        "command": "flowforge.canvas.undo",
+        "title": "FlowForge: Undo",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.redo",
+        "title": "FlowForge: Redo",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.selectAll",
+        "title": "FlowForge: Select All Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.copy",
+        "title": "FlowForge: Copy Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.paste",
+        "title": "FlowForge: Paste Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.duplicate",
+        "title": "FlowForge: Duplicate Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.group",
+        "title": "FlowForge: Group Selected Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.ungroup",
+        "title": "FlowForge: Ungroup Selected Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.delete",
+        "title": "FlowForge: Delete Selected Blocks",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.save",
+        "title": "FlowForge: Save Diagram",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.fit",
+        "title": "FlowForge: Fit Diagram",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.escape",
+        "title": "FlowForge: Dismiss Canvas Popups",
+        "category": "FlowForge Canvas"
+      },
+      {
+        "command": "flowforge.canvas.toggleLock",
+        "title": "FlowForge: Toggle Lock for Selected Blocks",
+        "category": "FlowForge"
+      },
+      {
+        "command": "flowforge.openRecent",
+        "title": "FlowForge: Open Recent Diagram"
+      },
+      {
+        "command": "flowforge.openRecentItem",
+        "title": "FlowForge: Open Recent Diagram"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "flowforge.open",
+          "when": "resourceExtname == .json",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "flowforge.new",
+          "when": "view == flowforge.diagrams",
+          "group": "navigation@1"
+        },
+        {
+          "command": "flowforge.open",
+          "when": "view == flowforge.diagrams",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "flowforge.linkSource",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "FlowForge",
+      "properties": {
+        "flowforge.rustBinary": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to compiled flowforge-core CLI. If unset, the extension checks its bundled binary and PATH."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "flowforge",
+          "title": "FlowForge",
+          "icon": "media/flowforge.svg"
+        }
+      ]
+    },
+    "views": {
+      "flowforge": [
+        {
+          "id": "flowforge.diagrams",
+          "name": "FlowForge"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "flowforge.diagrams",
+        "contents": "**FlowForge**\\n\\n[새 차트 만들기](command:flowforge.new)\\n\\n[기존 차트 열기](command:flowforge.open)\\n\\n[최근 차트 열기](command:flowforge.openRecent)\\n\\n최근 작업한 차트는 아래 목록에서 바로 열 수 있습니다."
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "flowforge.canvas.undo",
+        "key": "ctrl+z",
+        "mac": "cmd+z",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.redo",
+        "key": "ctrl+y",
+        "mac": "cmd+y",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.selectAll",
+        "key": "ctrl+a",
+        "mac": "cmd+a",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.copy",
+        "key": "ctrl+c",
+        "mac": "cmd+c",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.paste",
+        "key": "ctrl+v",
+        "mac": "cmd+v",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.duplicate",
+        "key": "ctrl+d",
+        "mac": "cmd+d",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.group",
+        "key": "ctrl+g",
+        "mac": "cmd+g",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.ungroup",
+        "key": "ctrl+shift+g",
+        "mac": "cmd+shift+g",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.delete",
+        "key": "delete",
+        "mac": "delete",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.save",
+        "key": "ctrl+s",
+        "mac": "cmd+s",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.fit",
+        "key": "f",
+        "mac": "f",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.escape",
+        "key": "escape",
+        "mac": "escape",
+        "when": "flowforge.canvasFocus"
+      },
+      {
+        "command": "flowforge.canvas.toggleLock",
+        "key": "q",
+        "mac": "q",
+        "when": "flowforge.canvasFocus"
+      }
+    ]
+  }
+}

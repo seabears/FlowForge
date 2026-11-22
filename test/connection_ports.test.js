@@ -1,0 +1,15 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const js=fs.readFileSync(path.join(__dirname,'../media/editor.js'),'utf8');
+const css=fs.readFileSync(path.join(__dirname,'../media/editor.css'),'utf8');
+assert(js.includes('function canConnectPorts('));
+assert(js.includes("sp.direction!=='output'"));
+assert(js.includes("tp.direction!=='input'"));
+assert(js.includes('sp.kind!==tp.kind'));
+assert(js.includes('sp.dataType!==tp.dataType'));
+assert(js.includes('connection-mode'));
+assert(js.includes('class="port-hit"'));
+assert(css.includes('#canvas.connection-mode .port{opacity:1;stroke-width:2.5}'));
+assert(css.includes('.port.valid-target'));
+assert(css.includes('.port.invalid-target'));
+console.log('FlowForge connection port UX tests passed');

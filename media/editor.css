@@ -1,0 +1,154 @@
+:root{color-scheme:dark;font-family:Inter,'Segoe UI',system-ui,sans-serif;font-size:13px;--bg:#151f2d;--surface:#202e41;--line:#334762;--text:#e6effb;--muted:#96a9c1;--blue:#8cbbfc}*{box-sizing:border-box}html,body,#app{height:100%;margin:0;overflow:hidden;color:var(--text);background:var(--bg)}button,input,textarea,select{font:inherit}button{color:#cfdef3;background:#283a51;border:1px solid #425575;border-radius:6px;padding:7px 10px;cursor:pointer}button:hover{background:#334b6b;border-color:#6087ba}button:disabled{opacity:.4;cursor:default}.primary{background:#3473bd;color:white;border-color:#4486d5}.danger{color:#ffadad}.root{display:flex;flex-direction:column;height:100%}header{height:56px;min-height:56px;display:flex;align-items:center;gap:9px;padding:0 14px;border-bottom:1px solid var(--line);background:#192638}header button{font-size:12px;padding:7px}.brand{color:#a7ceff;font-size:16px;white-space:nowrap}.muted,.tiny,.hint{color:var(--muted)}#filename{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:250px;font-size:11px}.spacer{flex:1}.work{display:flex;flex:1;min-height:0}aside{width:200px;flex:none;background:#1d2a3b;border-right:1px solid var(--line);padding:16px 12px;overflow:auto;transition:width .16s ease,padding .16s ease}aside#props{width:258px;border-left:1px solid var(--line);border-right:none}aside.closed{width:0!important;padding:0;overflow:hidden;border:none}h3{font-size:10px;letter-spacing:1.2px;font-weight:700;color:#98afca;margin:0 0 16px}input,textarea,select{background:#172333;color:#e6effb;border:1px solid #405672;border-radius:6px;padding:9px;outline:none;width:100%;min-width:0}input:focus,textarea:focus,select:focus{border-color:#82b6f2}textarea{min-height:62px;resize:vertical}label{display:block;color:#a3b7d0;font-size:11px;margin:17px 0 6px}.tool{width:100%;display:flex;gap:12px;text-align:left;align-items:center;background:transparent;border-color:transparent;padding:11px 9px}.tool:hover{background:#293b51}.hint{font-size:11px;line-height:2;margin-top:20px}.tag{display:inline-block;color:#abcbf5;background:#314764;padding:5px 9px;border-radius:5px;font-size:11px}.tiny{font-size:11px;line-height:1.65;word-break:break-all}.sizeRow,.buttonRow{display:flex;gap:8px;align-items:center}.sizeRow>*{flex:1}#inspector button{margin:9px 4px 0 0}#shell{position:relative;flex:1;min-width:0;overflow:hidden;outline:none;background-color:#152233;background-image:none;background-size:22px 22px}#canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.blockbox{transition:stroke .1s ease}.block .port{opacity:0;cursor:crosshair}.block:hover .port,.block.selected .port{opacity:1}.block .resize{opacity:0;cursor:nwse-resize}.block.selected .resize{opacity:1}.block{cursor:grab}.block:active{cursor:grabbing}.link{cursor:pointer}.link .add-edge{opacity:0;cursor:pointer;transition:opacity .1s}.link:hover .add-edge{opacity:1}.link.selected .add-edge{opacity:1}.floating{position:absolute;bottom:16px;right:16px;display:flex;align-items:center;gap:8px;background:#1d2b40dd;padding:5px;border:1px solid var(--line);border-radius:9px}#zoomLabel{min-width:45px;text-align:center;font-size:11px}.popup{position:absolute;z-index:5;background:#26374c;border:1px solid #5b7597;box-shadow:0 12px 35px #0009;padding:12px;border-radius:10px;width:265px;max-height:72%;overflow:auto}.popup.hidden,.toast.hidden{display:none}#quickResults{max-height:240px;overflow:auto;margin-top:8px}#quickResults button{display:block;text-align:left;width:100%;margin-bottom:4px;background:transparent;border:0}.popup#diffPanel{left:16px;top:16px;width:min(420px,90%)}.popup#simPanel{top:16px;right:16px;width:min(330px,90%)}.popup pre{background:#142236;color:#bcd0ef;padding:10px;max-height:160px;overflow:auto}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.diffRow{padding:8px;border-bottom:1px solid var(--line);font-size:11px}.toast{position:absolute;bottom:54px;left:50%;transform:translateX(-50%);z-index:10;background:#344b6b;border:1px solid #6b94ca;box-shadow:0 8px 28px #0007;padding:10px 16px;border-radius:7px;max-width:75%}footer{height:25px;background:#1d293b;border-top:1px solid #30415a;display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:10px;color:#9fb1c7}#props .groupRow{display:flex;gap:6px;justify-content:space-between;align-items:center}.groupRow button{font-size:10px;padding:3px}@media(max-width:1100px){#library{width:0;padding:0;overflow:hidden;border:none}}@media(max-width:760px){#props{width:0!important;padding:0;overflow:hidden;border:none}header{gap:4px}header button{padding:5px;font-size:10px}#filename{display:none}aside:not(.closed).opened{width:180px!important;padding:14px!important;position:absolute;z-index:8;top:56px;bottom:25px;box-shadow:8px 0 30px #0008}#props:not(.closed).opened{right:0;left:auto}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* Grid visibility only changes the canvas decoration; all coordinates remain snapped at 22px. */
+#shell.grid-visible.grid-dots{background-image:radial-gradient(circle,#60738d 1px,transparent 1px)}
+#shell.grid-visible.grid-lines{background-image:linear-gradient(to right,#60738d55 1px,transparent 1px),linear-gradient(to bottom,#60738d55 1px,transparent 1px)}
+.grid-control{display:flex;align-items:center;gap:2px;background:#142234;border:1px solid #344762;padding:3px;border-radius:7px;white-space:nowrap}
+.grid-control .grid-label{font-size:11px;color:#9eafc4;margin:0 5px}
+.grid-control button{font-size:11px;padding:5px 7px;border:1px solid transparent;background:transparent;border-radius:4px}
+.grid-control button.active{color:#e9f4ff;background:#315a85;border-color:#5688c0}
+.grid-control .grid-separator{width:1px;height:17px;background:#41556d;margin:0 3px}
+/* Editable blocks have dashed outlines on hover/focus/selection, not while idle. */
+.block:hover .blockbox,.block.selected .blockbox{stroke-dasharray:6 4}
+#shell{cursor:grab}#shell:active{cursor:grabbing}
+@media(max-width:1060px){.grid-control .grid-label{display:none}.grid-control button{padding:4px}}
+@media(max-width:700px){.grid-control{gap:0}.grid-control button{font-size:10px;padding:3px}}
+
+/* Native-feeling context menu for right-click on a flowchart block. */
+.node-context{position:absolute;z-index:30;min-width:190px;max-width:260px;padding:5px;background:#26374b;border:1px solid #536b89;border-radius:8px;box-shadow:0 12px 30px #000a}
+.node-context.hidden{display:none}
+.node-context-title{padding:7px 9px 9px;font-size:11px;color:#9eb4ce;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #43556b;margin-bottom:4px}
+.node-context button{display:block;width:100%;background:transparent;border:0;text-align:left;padding:9px 11px;border-radius:5px;color:#e7f1ff}
+.node-context button:not(:disabled):hover,.node-context button:not(:disabled):focus{background:#365578;outline:none}
+.node-context button:disabled{color:#73849c;opacity:1;cursor:not-allowed}
+
+/* Editable nodes use dashed outlines; locked nodes use solid outlines only. */
+.block.locked{cursor:default}
+.block.locked .resize{display:none}
+.block.locked .blockbox{stroke-dasharray:none}
+.context-divider{border-top:1px solid #43556b;margin:5px 4px}
+
+/* Compact native-feeling submenus. Click to open; hover opens for mouse users. */
+.context-submenu{position:relative}
+.context-submenu .submenu-trigger{display:flex;align-items:center;justify-content:space-between}
+.context-submenu .submenu-content{display:none;position:absolute;left:calc(100% - 3px);top:0;min-width:182px;max-width:240px;padding:5px;background:#26374b;border:1px solid #536b89;border-radius:8px;box-shadow:0 12px 30px #000a;z-index:40}
+.context-submenu.expanded .submenu-content,.context-submenu:hover .submenu-content,.context-submenu:focus-within .submenu-content{display:block}
+
+/* Seven feature additions: only the drawn block contents collapse, not its layout footprint. */
+#featurePanel{left:16px;top:16px;width:min(400px,92%);max-height:78%;z-index:12}
+#featurePanel .buttonRow{margin:10px 0;flex-wrap:wrap}
+#featurePanel .diffRow{word-break:break-all}
+.edge-label{pointer-events:none;font-weight:600}
+#optimizationPreview{pointer-events:none}
+
+/* Collapsible left/right docking panels: stable thin expand tabs remain visible. */
+.side-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-5px 0 11px}
+.side-panel-heading h3{margin:0}
+.side-collapse{flex:none;font-size:18px;line-height:1;padding:3px 7px;min-width:27px;min-height:26px;border-color:#465d7b;background:#28394f}
+.panel-rail{display:none;align-self:stretch;flex:none;width:22px;min-width:22px;padding:0;background:#23344a;color:#a9caef;border:0;border-radius:0;z-index:3;font-size:16px;transition:background .14s ease}
+.panel-rail:hover{background:#385474}
+.panel-rail.visible{display:block}
+#library.closed,#props.closed{width:0!important;min-width:0!important;padding:0!important;border:0!important;overflow:hidden!important}
+#library:not(.closed),#props:not(.closed){min-width:0}
+@media(max-width:1100px){#library:not(.closed){width:200px;padding:16px 12px;overflow:auto;border-right:1px solid var(--line)}}
+@media(max-width:760px){#props:not(.closed){width:258px!important;padding:16px 12px;overflow:auto;border-left:1px solid var(--line)}#library:not(.closed),#props:not(.closed){position:relative;top:auto;bottom:auto;box-shadow:none}}
+
+/* Full-page settings: all configuration and keyboard documentation live here. */
+.root{position:relative}
+.settings-page{position:absolute;z-index:50;top:56px;bottom:25px;left:0;right:0;overflow:auto;background:#142032}
+.settings-page.hidden,.settings-section.hidden{display:none}
+.settings-wrap{max-width:800px;margin:0 auto;padding:36px 28px 50px}
+.settings-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.settings-heading h1{font-size:27px;margin:3px 0 8px;letter-spacing:-.6px}.settings-heading p{margin:0}
+.settings-kicker{font-size:10px;color:#83b6f0;font-weight:700;letter-spacing:2px}
+.settings-nav{display:flex;gap:8px;margin:22px 0 30px;border-bottom:1px solid #334762}
+.settings-nav button{background:transparent;border:0;border-radius:0;border-bottom:2px solid transparent;padding:10px 17px;color:#b7c9e0}
+.settings-nav button.active{border-bottom-color:#83b6f0;color:white}
+.settings-section h2{font-size:17px;margin:0 0 14px}.settings-field{padding:14px 0;border-bottom:1px solid #293b51;max-width:590px}
+.settings-field label{font-weight:600;color:#e2eaf7;font-size:13px;margin:0 0 5px}.settings-field p,.settings-note{color:#9aacc5;font-size:12px;line-height:1.7;margin:0 0 10px}
+.settings-field select{max-width:390px}.settings-note{margin:20px 0 14px}
+.shortcut-row{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #2c3e53;padding:13px 5px;font-size:12px}
+.shortcut-row kbd{border:1px solid #4e627c;border-bottom-width:2px;background:#263b55;color:#d9e8ff;border-radius:5px;padding:5px 9px;white-space:nowrap;font:11px 'Consolas',monospace}
+#shortcutTable{margin:19px 0 22px;max-width:640px}
+
+/* v0.6.8 appearance settings — independent of diagram data. */
+:root{
+ --panel-bg:#1d2a3b;--header-bg:#192638;--canvas-bg:#152233;--settings-bg:#142032;
+ --control-bg:#283a51;--control-hover:#334b6b;--control-fg:#cfdef3;--input-bg:#172333;--input-border:#405672;
+ --popup-bg:#26374c;--heading:#e2eaf7;--node-bg:#263448;--node-line:#3d5069;
+ --node-title:#eaf2fe;--node-description:#adc0d6;--port-input:#1d2c40;
+ --edge-label:#e8f2ff;--edge-outline:#172333;--grid-dot:#60738d;--grid-lines:#60738d55;
+ --rail-bg:#23344a;--nav-bg:#263b55;--footer-bg:#1d293b;
+}
+:root[data-theme="midnight"]{
+ color-scheme:dark;--bg:#0b101a;--surface:#151c29;--line:#2b3850;--text:#e8f0ff;--muted:#94a8c4;--blue:#a0c3ff;
+ --panel-bg:#101827;--header-bg:#101727;--canvas-bg:#0d1421;--settings-bg:#0b121f;
+ --control-bg:#1b2b40;--control-hover:#263d57;--control-fg:#e1edff;--input-bg:#101c2e;--input-border:#39516d;
+ --popup-bg:#18263a;--heading:#eff5ff;--node-bg:#1c2b40;--node-line:#334966;
+ --node-title:#f0f5ff;--node-description:#bdcce0;--port-input:#142238;
+ --edge-label:#ebf3ff;--edge-outline:#0d1421;--grid-dot:#42546c;--grid-lines:#42546c55;
+ --rail-bg:#19293d;--nav-bg:#21344c;--footer-bg:#121e2f;
+}
+:root[data-theme="light"],:root[data-theme="vscode"] body.vscode-light,
+:root[data-theme="vscode"] body.vscode-high-contrast-light{
+ color-scheme:light;--bg:#f1f5fb;--surface:#ffffff;--line:#c9d3e2;--text:#233249;--muted:#596b83;--blue:#2766b4;
+ --panel-bg:#f7f9fc;--header-bg:#ffffff;--canvas-bg:#edf2f9;--settings-bg:#f4f7fc;
+ --control-bg:#e8eef7;--control-hover:#dbe7f6;--control-fg:#293d56;--input-bg:#ffffff;--input-border:#b8c7da;
+ --popup-bg:#ffffff;--heading:#253850;--node-bg:#ffffff;--node-line:#d0dbea;
+ --node-title:#273b53;--node-description:#52647c;--port-input:#ffffff;
+ --edge-label:#203956;--edge-outline:#edf2f9;--grid-dot:#a7b7cc;--grid-lines:#a7b7cc55;
+ --rail-bg:#e6edf6;--nav-bg:#e1eaf6;--footer-bg:#f0f5fb;
+}
+/* For VSCode auto mode use inherited body class by setting an ancestor attribute in JS. */
+:root[data-theme="vscode"][data-vscode-light="true"]{
+ color-scheme:light;--bg:#f1f5fb;--surface:#ffffff;--line:#c9d3e2;--text:#233249;--muted:#596b83;--blue:#2766b4;
+ --panel-bg:#f7f9fc;--header-bg:#ffffff;--canvas-bg:#edf2f9;--settings-bg:#f4f7fc;
+ --control-bg:#e8eef7;--control-hover:#dbe7f6;--control-fg:#293d56;--input-bg:#ffffff;--input-border:#b8c7da;
+ --popup-bg:#ffffff;--heading:#253850;--node-bg:#ffffff;--node-line:#d0dbea;
+ --node-title:#273b53;--node-description:#52647c;--port-input:#ffffff;
+ --edge-label:#203956;--edge-outline:#edf2f9;--grid-dot:#a7b7cc;--grid-lines:#a7b7cc55;
+ --rail-bg:#e6edf6;--nav-bg:#e1eaf6;--footer-bg:#f0f5fb;
+}
+header{background:var(--header-bg)}aside{background:var(--panel-bg)}
+#shell{background-color:var(--canvas-bg)}.settings-page{background:var(--settings-bg)}
+button{color:var(--control-fg);background:var(--control-bg);border-color:var(--line)}
+button:hover{background:var(--control-hover);border-color:var(--blue)}
+input,textarea,select{background:var(--input-bg);color:var(--text);border-color:var(--input-border)}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+h3,.settings-kicker{color:var(--muted)}label,.settings-field label{color:var(--heading)}
+.tag{color:var(--text);background:var(--nav-bg)}
+.tool:hover{background:var(--control-hover)}
+.floating,.popup,.node-context,.context-submenu .submenu-content,.toast{background:var(--popup-bg);border-color:var(--line);color:var(--text)}
+.popup pre,.shortcut-row kbd{background:var(--nav-bg);color:var(--text)}
+.node-context button{color:var(--text)}.node-context button:not(:disabled):hover,.node-context button:not(:disabled):focus{background:var(--control-hover)}
+.node-context-title,.settings-field p,.settings-note{color:var(--muted)}
+.settings-nav{border-color:var(--line)}.settings-nav button{color:var(--muted)}.settings-nav button.active{color:var(--text);border-bottom-color:var(--blue)}
+.settings-field,.shortcut-row{border-color:var(--line)}
+.panel-rail{background:var(--rail-bg);color:var(--text)}.panel-rail:hover{background:var(--control-hover)}
+.side-collapse{background:var(--control-bg);border-color:var(--line)}
+footer{background:var(--footer-bg);color:var(--muted);border-color:var(--line)}
+#shell.grid-visible.grid-dots{background-image:radial-gradient(circle,var(--grid-dot) 1px,transparent 1px)}
+#shell.grid-visible.grid-lines{background-image:linear-gradient(to right,var(--grid-lines) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-lines) 1px,transparent 1px)}
+.theme-previews{display:flex;gap:10px;margin-top:12px;max-width:390px}
+.theme-swatch{height:61px;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:9px;border-radius:8px;border:1px solid #526d90;font-size:10px}
+.theme-swatch span{border-radius:3px;padding:4px;font-size:9px}
+.swatch-dark{background:#152233;color:#eaf2fe}.swatch-dark span{background:#263448}
+.swatch-midnight{background:#0d1421;color:#f0f5ff}.swatch-midnight span{background:#1c2b40}
+.swatch-light{background:#edf2f9;color:#273b53;border-color:#b7c6d8}.swatch-light span{background:white}
+
+/* Connection creation: expose every port while dragging from an output. */
+.port-hit{opacity:0;cursor:crosshair}
+.block:hover .port-hit,.block.selected .port-hit,#canvas.connection-mode .port-hit{opacity:1}
+#canvas.connection-mode .port{opacity:1;stroke-width:2.5}
+#canvas.connection-mode .port.input{r:7;fill:#78889d;stroke:#c0ccda}
+#canvas.connection-mode .port.valid-target{fill:#55c98b!important;stroke:#c8ffe0!important;stroke-width:3!important;filter:drop-shadow(0 0 5px #55c98b)}
+#canvas.connection-mode .port.invalid-target{fill:#65758a!important;stroke:#8998aa!important;opacity:.55}
+#canvas.connection-mode .port-hit{r:13;opacity:1}
+
+/* Connection diagnostics: incompatible ports remain visible and explain why. */
+#canvas.connection-mode .port.invalid-target{filter:drop-shadow(0 0 3px #d58a8a)}
+#canvas.connection-mode .port.valid-target{cursor:copy}
+
+/* Orthogonal segment editing affordance */
+.segment-drag-handle{stroke-linecap:round;pointer-events:stroke;cursor:grab}
+.segment-drag-handle:active{cursor:grabbing}

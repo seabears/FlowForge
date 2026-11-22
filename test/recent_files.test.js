@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const ext=fs.readFileSync(path.join(__dirname,'../extension.js'),'utf8');
+const pkg=JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json'),'utf8'));
+assert(ext.includes("const RECENT_KEY='flowforge.recentFiles'"));
+assert(ext.includes('async function rememberRecent(uri)'));
+assert(ext.includes('class RecentFlowFilesProvider'));
+assert(ext.includes("command:'flowforge.openRecentItem'"));
+assert(pkg.contributes.commands.some(x=>x.command==='flowforge.openRecent'));
+assert(pkg.contributes.viewsWelcome[0].contents.includes('최근 차트 열기'));
+console.log('FlowForge recent files tests passed');

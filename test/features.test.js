@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('node:assert/strict'),features=require('../core/features'),model=require('../core/model');
+const original=model.empty(),a=model.addNode(original,'start',2,2),b=model.addNode(original,'process',2,10),c=model.addNode(original,'end',2,18);
+b.expression='result = x + 1';original.variables=[{id:'x',initialValue:0}];
+original.edges.push({id:'e1',kind:'flow',source:{nodeId:a.id,portId:'next'},target:{nodeId:b.id,portId:'in'}},{id:'e2',kind:'flow',source:{nodeId:b.id,portId:'next'},target:{nodeId:c.id,portId:'in'}});
+const next=model.clone(original);next.nodes[1].compact=true;next.edges[0].label='next';
+const differences=features.compare(original,next);assert.equal(differences.length,2);assert(differences.every(x=>x.status==='modified'));
+next.layout.nodes[b.id].x+=2;assert(features.compare(original,next).some(x=>x.kind==='layout.nodes'));
+const results=features.executeTests(original,[{name:'pass',inputs:{x:3},expected:{result:4}},{name:'fail',inputs:{x:3},expected:{result:5}},{name:'error',inputs:{x:3},expected:{result:4},maxSteps:1}],model);
+assert.deepEqual(results.map(x=>x.status),['PASS','FAIL','ERROR']);
+assert.equal(features.executeTests(original,[{name:'branch',inputs:{x:1},expected:{result:2},expectedPath:[a.id,b.id,c.id]}],model)[0].status,'PASS');
+console.log('New FlowForge feature model tests passed');

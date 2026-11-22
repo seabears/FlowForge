@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 2,
+  "documentId": "sample_motor",
+  "revision": 1,
+  "name": "BLDC Current Limit",
+  "variables": [
+    {
+      "id": "I_meas",
+      "dataType": "f32",
+      "initialValue": 7.0
+    },
+    {
+      "id": "I_limit",
+      "dataType": "f32",
+      "initialValue": 5.0
+    },
+    {
+      "id": "Duty",
+      "dataType": "i32",
+      "initialValue": 50
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "title": "시작",
+      "description": "",
+      "expression": "",
+      "ports": [
+        {
+          "id": "next",
+          "kind": "flow",
+          "direction": "output"
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "type": "io",
+      "title": "ADC 측정",
+      "description": "",
+      "expression": "",
+      "ports": [
+        {
+          "id": "in",
+          "kind": "flow",
+          "direction": "input"
+        },
+        {
+          "id": "next",
+          "kind": "flow",
+          "direction": "output"
+        }
+      ]
+    },
+    {
+      "id": "limit",
+      "type": "condition",
+      "title": "전류 제한 판단",
+      "description": "",
+      "expression": "I_meas > I_limit",
+      "ports": [
+        {
+          "id": "in",
+          "kind": "flow",
+          "direction": "input"
+        },
+        {
+          "id": "true",
+          "kind": "flow",
+          "direction": "output"
+        },
+        {
+          "id": "false",
+          "kind": "flow",
+          "direction": "output"
+        }
+      ]
+    },
+    {
+      "id": "down",
+      "type": "process",
+      "title": "Duty 감소",
+      "description": "",
+      "expression": "Duty = Duty - 5",
+      "ports": [
+        {
+          "id": "in",
+          "kind": "flow",
+          "direction": "input"
+        },
+        {
+          "id": "next",
+          "kind": "flow",
+          "direction": "output"
+        }
+      ]
+    },
+    {
+      "id": "keep",
+      "type": "process",
+      "title": "Duty 유지",
+      "description": "",
+      "expression": "Duty = Duty",
+      "ports": [
+        {
+          "id": "in",
+          "kind": "flow",
+          "direction": "input"
+        },
+        {
+          "id": "next",
+          "kind": "flow",
+          "direction": "output"
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "title": "종료",
+      "description": "",
+      "expression": "",
+      "ports": [
+        {
+          "id": "in",
+          "kind": "flow",
+          "direction": "input"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e01",
+      "kind": "flow",
+      "source": {
+        "nodeId": "start",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "read",
+        "portId": "in"
+      }
+    },
+    {
+      "id": "e02",
+      "kind": "flow",
+      "source": {
+        "nodeId": "read",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "limit",
+        "portId": "in"
+      }
+    },
+    {
+      "id": "e03",
+      "kind": "flow",
+      "source": {
+        "nodeId": "limit",
+        "portId": "true"
+      },
+      "target": {
+        "nodeId": "down",
+        "portId": "in"
+      }
+    },
+    {
+      "id": "e04",
+      "kind": "flow",
+      "source": {
+        "nodeId": "limit",
+        "portId": "false"
+      },
+      "target": {
+        "nodeId": "keep",
+        "portId": "in"
+      }
+    },
+    {
+      "id": "e05",
+      "kind": "flow",
+      "source": {
+        "nodeId": "down",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "end",
+        "portId": "in"
+      }
+    },
+    {
+      "id": "e06",
+      "kind": "flow",
+      "source": {
+        "nodeId": "keep",
+        "portId": "next"
+      },
+      "target": {
+        "nodeId": "end",
+        "portId": "in"
+      }
+    }
+  ],
+  "layout": {
+    "gridSize": 22,
+    "nodes": {
+      "start": {
+        "x": 4,
+        "y": 3,
+        "w": 6,
+        "h": 4,
+        "portPositions": {
+          "next": {
+            "side": "bottom",
+            "offset": 3
+          }
+        }
+      },
+      "read": {
+        "x": 4,
+        "y": 11,
+        "w": 8,
+        "h": 4,
+        "portPositions": {
+          "in": {
+            "side": "top",
+            "offset": 4
+          },
+          "next": {
+            "side": "bottom",
+            "offset": 4
+          }
+        }
+      },
+      "limit": {
+        "x": 4,
+        "y": 19,
+        "w": 8,
+        "h": 4,
+        "portPositions": {
+          "in": {
+            "side": "top",
+            "offset": 4
+          },
+          "true": {
+            "side": "bottom",
+            "offset": 2
+          },
+          "false": {
+            "side": "bottom",
+            "offset": 6
+          }
+        }
+      },
+      "down": {
+        "x": 0,
+        "y": 29,
+        "w": 8,
+        "h": 4,
+        "portPositions": {
+          "in": {
+            "side": "top",
+            "offset": 4
+          },
+          "next": {
+            "side": "bottom",
+            "offset": 4
+          }
+        }
+      },
+      "keep": {
+        "x": 12,
+        "y": 29,
+        "w": 8,
+        "h": 4,
+        "portPositions": {
+          "in": {
+            "side": "top",
+            "offset": 4
+          },
+          "next": {
+            "side": "bottom",
+            "offset": 4
+          }
+        }
+      },
+      "end": {
+        "x": 4,
+        "y": 39,
+        "w": 6,
+        "h": 4,
+        "portPositions": {
+          "in": {
+            "side": "top",
+            "offset": 3
+          }
+        }
+      }
+    },
+    "edges": {},
+    "groups": []
+  },
+  "bindings": {},
+  "extensions": {}
+}

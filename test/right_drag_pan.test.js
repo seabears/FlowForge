@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('assert'),fs=require('fs'),path=require('path');
+const js=fs.readFileSync(path.join(__dirname,'../media/editor.js'),'utf8');
+assert(js.includes("if(e.button===2){suppressRightContextMenu=false;"));
+assert(js.includes("drag={type:'box',button:2"),'right drag must marquee');
+assert(js.includes("drag={type:'pan',button:0"),'left background drag must pan');
+assert(js.includes("if(drag.type==='box'){if(drag.button===2)"),'right-drag threshold missing');
+assert(js.includes("suppressRightContextMenu=true;rightClickBlock=null;rightClickEdge=null"),'right-drag must suppress context menu');
+assert(js.includes("if(drag.type==='box'&&drag.moved)"),'no marquee selection for click-only');
+assert(!js.includes("drag={type:'pan',button:2"),'right drag must not pan');
+assert(!js.includes("drag={type:'box',button:0"),'left drag must not marquee');
+console.log('Right-drag selection and left-drag pan checks passed');

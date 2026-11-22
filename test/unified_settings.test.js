@@ -1,0 +1,17 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const ext=fs.readFileSync(path.join(__dirname,'../extension.js'),'utf8');
+const ed=fs.readFileSync(path.join(__dirname,'../media/editor.js'),'utf8');
+const pkg=JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json'),'utf8'));
+assert(ext.includes("const SETTINGS_FILE='settings.json'"));
+assert(ext.includes('context.globalStorageUri.fsPath'));
+assert(ext.includes('async function saveAppSettings()'));
+assert(ext.includes('async function loadAppSettings()'));
+assert(ext.includes('appSettings.recentFiles'));
+assert(ext.includes("msg.type==='updatePanelSettings'"));
+assert(ext.includes("msg.type==='updateGridSettings'"));
+assert(ext.includes("msg.type==='updateThemeSetting'"));
+assert(ed.includes("send('updatePanelSettings'"));
+assert(!pkg.contributes.configuration.properties['flowforge.theme']);
+assert(!pkg.contributes.configuration.properties['flowforge.gridMode']);
+console.log('FlowForge unified settings tests passed');

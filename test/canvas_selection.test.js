@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const js=fs.readFileSync(path.join(__dirname,'../media/editor.js'),'utf8');
+assert(js.includes("selectedEdge=null,selectedEdges=new Set()"),'selectedEdges state must be initialized');
+assert(js.includes("selectedEdges=new Set(doc.edges.map(ed=>ed.id))"),'Ctrl+A must select all edges');
+assert(js.includes("e.key.toLowerCase()==='a'"),'Ctrl+A handler missing');
+assert(js.includes("drag={type:'box',button:2,sx:e.clientX,sy:e.clientY,moved:false}"),'right drag box selection missing');
+assert(js.includes('selectedEdges=new Set(doc.edges.filter'),'box selection must include edges');
+assert(js.includes('linkPath(ed)'),'edge geometry must be considered');
+console.log('FlowForge canvas selection tests passed');
