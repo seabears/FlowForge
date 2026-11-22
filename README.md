@@ -1,173 +1,37 @@
-# FlowForge — 시각적 로직 설계 도구
+# FlowForge
 
-FlowForge는 VS Code에서 프로그램의 흐름과 데이터 관계를 블록과 연결선으로 설계하고 관리하는 시각적 로직 편집기입니다. 차트는 편집 가능한 `.flow.json` 파일로 저장되며, 사람이 읽고 AI가 분석하기 쉬운 구조를 지향합니다. **AI 채팅 기능은 내장하지 않습니다.**
+## 소개
 
-> 기준 소스 버전: **v0.8.2**. 이 저장소는 개발 중인 스냅샷이며, 계획된 모든 요구사항이 구현·검증 완료되었다는 의미는 아닙니다.
+**FlowForge**는 VS Code에서 프로그램의 로직을 플로우차트 형태로 설계하고 편집하는 시각적 로직 도구입니다.
 
-## 주요 기능
+조건, 처리 과정, 데이터 흐름을 블록과 연결선으로 표현하여 복잡한 로직을 한눈에 이해하고, 사람과 AI가 같은 구조를 바탕으로 설계 내용을 논의할 수 있도록 돕습니다. AI 채팅을 내장하기보다는 **AI와 함께 읽고 수정할 수 있는 명확한 로직 표현 형식**을 지향합니다.
 
-- 22px 격자 기반 캔버스와 블록 배치
-- Flow/Data 포트 및 방향·자료형 검사
-- 직각 연결선, 수동 꺾임점 편집 및 잠금
-- 블록 선택·그룹·복사와 Undo/Redo 관련 기능
-- 수동 로직 검증 및 변수 기반 시뮬레이션 기능
-- 테마·격자·패널·최근 파일 설정을 통합한 버전 관리형 `settings.json`
-- 사이드바의 **새 차트 만들기**, **기존 차트 열기**, **최근 차트 열기**
-- `AGENTS.md`와 요구사항 문서를 통한 AI 개발 규칙 및 추적성
+### 주요 특징
 
-기능별 실제 구현 범위와 제한은 [구현 상태 문서](docs/IMPLEMENTATION_STATUS.md)를 확인하세요.
+- **시각적 로직 설계:** 처리, 조건, 반복 등의 흐름을 블록과 연결선으로 표현합니다.
+- **정밀한 편집:** 격자 기반 배치, 직각 연결선, 경로 조정, 잠금 기능으로 구조를 정리합니다.
+- **데이터 흐름 표현:** Flow/Data 포트를 구분하고 연결 방향과 자료형의 호환성을 확인합니다.
+- **구조화된 저장:** 로직과 레이아웃을 `.flow.json` 형식으로 저장해 사람이 검토하고 도구가 분석하기 쉽게 합니다.
+- **검증과 시뮬레이션:** 로직 검증과 변수 기반 실행 흐름 확인을 지원하는 방향으로 개발합니다.
+- **VS Code 통합:** 코드 작업과 시각적 로직 설계를 하나의 개발 환경에서 연결하는 것을 목표로 합니다.
 
-## 마우스 조작 정책
-
-- **빈 캔버스 좌클릭 드래그:** 캔버스 이동
-- **우클릭 드래그:** 블록 및 교차하는 연결선 범위 선택
-- **드래그하지 않은 우클릭:** 문맥 메뉴 열기
-- **블록 좌클릭 드래그:** 블록 이동
-- **Ctrl+A:** 블록과 연결선 전체 선택
-- **Space:** FlowForge 기능을 할당하지 않음
-
-## 저장소 구성
-
-```text
-.
-├── AGENTS.md
-├── REQUIREMENTS/
-│   └── MASTER.md
-├── core/
-├── docs/
-├── examples/
-├── media/
-├── rust/
-├── test/
-└── package.json
-```
-
-## 개발 및 테스트
-
-필요 환경:
-- VS Code 확장 개발 환경
-- Node.js (확장 및 JavaScript 테스트)
-- Python (일부 UI/통합 테스트)
-- Rust toolchain (Rust 구성 요소 빌드 시)
-
-주요 검사 명령:
-
-```sh
-node --check extension.js
-node --check media/editor.js
-node test/model.test.js
-node test/simulation.test.js
-cd rust && cargo test
-```
-
-관련 문서:
-- [AI 개발 규칙](AGENTS.md)
-- [통합 요구사항](REQUIREMENTS/MASTER.md)
-- [AI 작업 흐름](docs/AI_WORKFLOW.md)
-- [구현 상태 및 알려진 제한](docs/IMPLEMENTATION_STATUS.md)
-- [전체 요구사항 상세](docs/FlowForge_FULL_REQUIREMENTS.md)
-
-## 설치
-
-이 저장소 스냅샷에는 VSIX 설치 패키지가 포함되어 있지 않습니다. VS Code 확장 패키징 도구를 사용해 별도로 패키징하세요. 실제 Windows VS Code Extension Host에서 검증하지 않았다면 실환경 검증 완료로 간주하지 않습니다.
-
-## 개발 기여 및 변경 정책
-
-1. 코드를 수정하기 전에 관련 요구사항 ID를 확인합니다. 매번 전체 프로젝트를 다시 읽지 않습니다.
-2. 기존 사용자 변경사항을 보존하고 `git diff`를 확인합니다.
-3. 최소 범위로 수정하고 관련 테스트를 추가하거나 갱신합니다.
-4. 테스트 결과는 **통과**, **실패**, **미검증**으로 구분합니다. 실행하지 않은 테스트를 통과했다고 보고하지 않습니다.
-5. 동작이나 범위가 바뀌면 요구사항 및 구현 상태 문서를 갱신합니다.
-6. 커밋 전 Diff를 제시하고 명시적인 승인을 받습니다. Push도 별도 승인이 필요합니다.
-
-## 라이선스
-
-현재 라이선스가 지정되지 않았습니다. 라이선스 파일이 추가되기 전까지 저작권은 기본적으로 권리자에게 유보됩니다.
+FlowForge는 **직관적인 사용성, 일관된 디자인, 명확한 데이터 구조**를 중심으로 개발 중인 프로젝트입니다.
 
 ---
 
-# FlowForge — Visual Logic Design for VS Code
+## Overview
 
-FlowForge is a visual logic editor for designing and maintaining program flow and data relationships with blocks and connections inside VS Code. Diagrams are stored as editable `.flow.json` files designed to be readable by people and straightforward for AI tools to inspect. **FlowForge does not include an embedded AI chat feature.**
+**FlowForge** is a visual logic design tool for VS Code that lets developers create and edit program logic as flowcharts.
 
-> Source baseline: **v0.8.2**. This repository is an active development snapshot; it does not imply that every planned requirement has been implemented and verified.
+It represents conditions, operations, and data flow through blocks and connections, making complex logic easier to understand and discuss. Rather than embedding an AI chat interface, FlowForge aims to provide **a clear, structured representation of logic that both people and AI tools can read and edit**.
 
-## Features
+### Key Features
 
-- Grid-aligned canvas and block layout based on a 22 px grid
-- Flow/Data ports with direction and data-type validation
-- Orthogonal connections with editable manual bends and locking
-- Block selection, grouping, copying, and undo/redo-related functionality
-- Manual logic validation and variable-based simulation functionality
-- Versioned `settings.json` consolidating theme, grid, panel, and recent-file preferences
-- Sidebar actions for **New Diagram**, **Open Existing Diagram**, and **Open Recent Diagram**
-- AI development rules and requirement traceability through `AGENTS.md` and the requirements documents
+- **Visual logic design:** Represent processes, conditions, loops, and execution paths with blocks and connections.
+- **Precise editing:** Organize diagrams using a grid-aligned canvas, orthogonal connections, adjustable routes, and locking.
+- **Data-flow modeling:** Distinguish Flow and Data ports, with direction and type compatibility checks.
+- **Structured storage:** Save logic and layout in editable `.flow.json` files that are easy to inspect and process.
+- **Validation and simulation:** Develop tools for checking logic and exploring variable-based execution paths.
+- **VS Code integration:** Bring visual logic design into the same environment as source-code development.
 
-See the [implementation status](docs/IMPLEMENTATION_STATUS.md) for the actual implementation scope and known limitations of individual features.
-
-## Mouse interaction policy
-
-- **Left-drag on empty canvas:** pan the canvas
-- **Right-drag:** marquee-select blocks and intersecting connections
-- **Right-click without dragging:** open the context menu
-- **Left-drag a block:** move the block
-- **Ctrl+A:** select all blocks and connections
-- **Space:** intentionally unassigned in FlowForge
-
-## Repository layout
-
-```text
-.
-├── AGENTS.md
-├── REQUIREMENTS/
-│   └── MASTER.md
-├── core/
-├── docs/
-├── examples/
-├── media/
-├── rust/
-├── test/
-└── package.json
-```
-
-## Development and testing
-
-Requirements:
-- VS Code Extension development environment
-- Node.js for the extension and JavaScript tests
-- Python for selected UI/integration tests
-- Rust toolchain when building the Rust component
-
-Useful checks:
-
-```sh
-node --check extension.js
-node --check media/editor.js
-node test/model.test.js
-node test/simulation.test.js
-cd rust && cargo test
-```
-
-Documentation:
-- [AI development rules](AGENTS.md)
-- [Master requirements](REQUIREMENTS/MASTER.md)
-- [AI workflow](docs/AI_WORKFLOW.md)
-- [Implementation status and known limitations](docs/IMPLEMENTATION_STATUS.md)
-- [Full requirements details](docs/FlowForge_FULL_REQUIREMENTS.md)
-
-## Installation
-
-A VSIX installer is not included in this source snapshot. Package the extension separately with the appropriate VS Code extension packaging tools. Do not claim Windows VS Code Extension Host validation unless it has actually been performed.
-
-## Contribution and change policy
-
-1. Check the relevant requirement IDs before editing; do not reread the entire project for every task.
-2. Preserve existing user changes and inspect `git diff`.
-3. Make the smallest scoped change and add or update relevant tests.
-4. Report test results as **pass**, **fail**, or **unverified**. Never claim an unrun test passed.
-5. Update the requirements and implementation status when behavior or scope changes.
-6. Show the diff and obtain explicit approval before committing. Push requires separate approval.
-
-## License
-
-No license has been specified yet. Until a license is added, all rights are reserved by default.
+FlowForge is an ongoing project focused on **intuitive interaction, consistent visual design, and a clear data model**.
